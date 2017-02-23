@@ -51,6 +51,7 @@ idea {
 
 task buildDocker(type: Docker, dependsOn: build) {
     applicationName = "ps-" + jar.baseName
+    tag = 'projective-software/' + applicationName
     dockerfile = file('src/main/docker/Dockerfile')
     doFirst {
         copy {
