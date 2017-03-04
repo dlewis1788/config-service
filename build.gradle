@@ -3,7 +3,7 @@ buildscript {
         springBootVersion = '1.5.1.RELEASE'
     }
     repositories {
-        maven { url "http://psmvn1.projectivesoftware.com:8081/repository/iima-maven-repository-1/" }
+        maven { url "https://psmvn1.projectivesoftware.com:8443/repository/iima-maven-repository-1/" }
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
@@ -24,7 +24,7 @@ jar {
 sourceCompatibility = 1.8
 
 repositories {
-    maven { url "http://psmvn1.projectivesoftware.com:8081/repository/iima-maven-repository-1/" }
+    maven { url "https://psmvn1.projectivesoftware.com:8443/repository/iima-maven-repository-1/" }
 }
 
 dependencies {
