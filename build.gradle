@@ -8,7 +8,12 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
         classpath('se.transmode.gradle:gradle-docker:1.2')
+        classpath('gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.4.17')
     }
+}
+
+plugins {
+    id "com.gorylenko.gradle-git-properties" version "1.4.17"
 }
 
 apply plugin: 'java'
