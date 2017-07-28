@@ -1,4 +1,4 @@
-FROM openjdk:8u131-jre
+FROM openjdk:8u141-jre
 VOLUME /tmp
 ADD config-service-0.0.1-SNAPSHOT.jar config-service-0.0.1-SNAPSHOT.jar
 RUN sh -c 'touch /config-service-0.0.1-SNAPSHOT.jar'
