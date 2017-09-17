@@ -1,6 +1,12 @@
+/*
+ * Copyright (C) Projective Software LLC, 2017 - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited
+ * Proprietary and confidential
+ */
+
 buildscript {
     ext {
-        springBootVersion = '2.0.0.M3'
+        springBootVersion = '2.0.0.M4'
     }
     repositories {
         maven { url "https://psmvn1.projectivesoftware.com:8443/repository/iima-maven-repository-1/" }
@@ -38,7 +44,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.M1"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Finchley.BUILD-SNAPSHOT"
     }
 }
 
