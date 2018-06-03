@@ -81,4 +81,5 @@ task buildImage(type: DockerBuildImage) {
     tag = 'projective-software/' + "ps-" + jar.baseName + ':latest'
 }
 
+createDockerfile.dependsOn(syncJarFile)
 buildImage.dependsOn(syncJarFile)
