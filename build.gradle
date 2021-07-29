@@ -6,7 +6,7 @@
 
 buildscript {
     ext {
-        springBootVersion = '2.1.13.RELEASE'
+        springBootVersion = '2.5.3'
     }
     repositories {
         mavenCentral()
@@ -14,7 +14,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-        classpath('com.bmuschko:gradle-docker-plugin:6.3.0')
+        classpath('com.bmuschko:gradle-docker-plugin:6.7.0')
         classpath('gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:1.5.2')
     }
 }
@@ -23,7 +23,7 @@ apply plugin: 'java'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
-apply plugin: 'com.bmuschko.docker-remote-api'
+apply plugin: 'com.bmuschko.docker-spring-boot-application'
 apply plugin: 'com.gorylenko.gradle-git-properties'
 
 version = '0.0.1-SNAPSHOT'
@@ -37,13 +37,14 @@ repositories {
 
 dependencies {
     compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.cloud:spring-cloud-starter-bootstrap')
     compile('org.springframework.cloud:spring-cloud-config-server')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Greenwich.SR5"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2020.0.3"
     }
 }
 
@@ -57,26 +58,17 @@ idea {
     }
 }
 
-
-import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
-import com.bmuschko.gradle.docker.tasks.image.Dockerfile
-
-task createDockerfile(type: Dockerfile) {
-    from 'openjdk:12'
-    copyFile jar.archiveName, '/' + jar.archiveName
-    entryPoint 'sh', '-c', 'java ${JAVA_OPTS} -jar /' + jar.archiveName
+test {
+    useJUnitPlatform()
 }
 
-task buildImage(type: DockerBuildImage) {
-    dependsOn createDockerfile
-    images.add('projective-software/' + "ps-" + jar.baseName + ':latest')
+jar {
+    enabled = false
 }
 
-task syncJarFile(type: Sync) {
-    dependsOn assemble
-    from jar.archivePath
-    into buildImage.inputDir
+docker {
+    springBootApplication {
+        baseImage = 'amazoncorretto:8'
+        images = ["projective-software/" + "ps-" + jar.baseName + ":latest"]
+    }
 }
-
-createDockerfile.dependsOn(syncJarFile)
-buildImage.dependsOn(syncJarFile)
